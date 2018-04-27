@@ -1,14 +1,15 @@
 package com.example.akat2.coderswag.Controller
 
+import android.content.Intent
 import android.content.res.Configuration
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
-import android.widget.GridLayout
 import com.example.akat2.coderswag.Adapters.ProductsAdapter
 import com.example.akat2.coderswag.R
 import com.example.akat2.coderswag.Services.DataService
 import com.example.akat2.coderswag.Utilities.EXTRA_CATEGORY
+import com.example.akat2.coderswag.Utilities.EXTRA_PRODUCT
 import kotlinx.android.synthetic.main.activity_products.*
 
 class ProductsActivity : AppCompatActivity() {
@@ -30,7 +31,11 @@ class ProductsActivity : AppCompatActivity() {
         if(screenSize >= 720)
             spanCount = 3
 
-        adapter = ProductsAdapter(this, DataService.getProducts(categoryType))
+        adapter = ProductsAdapter(this, DataService.getProducts(categoryType)) { product ->
+            val detailIntent = Intent(this, ProductDetailActivity::class.java)
+            detailIntent.putExtra(EXTRA_PRODUCT, product)
+            startActivity(detailIntent)
+        }
         val layoutManager = GridLayoutManager(this, spanCount)
         productsListView.adapter = adapter
         productsListView.layoutManager = layoutManager

@@ -13,7 +13,7 @@ import com.example.akat2.coderswag.R
 /**
  * Created by Ayush Kataria on 27-04-2018.
  */
-class ProductsAdapter(val context: Context, val products: List<Product>) : RecyclerView.Adapter<ProductsAdapter.ProductHolder>() {
+class ProductsAdapter(val context: Context, val products: List<Product>, val itemClick: (Product) -> Unit) : RecyclerView.Adapter<ProductsAdapter.ProductHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.product_list_item, parent, false)
         return ProductHolder(view)
@@ -38,6 +38,9 @@ class ProductsAdapter(val context: Context, val products: List<Product>) : Recyc
             productImage?.setImageResource(resourceId)
             productTitle?.text = product.title
             productPrice?.text = product.price
+            itemView.setOnClickListener{
+                itemClick(product)
+            }
         }
     }
 }
